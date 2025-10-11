@@ -176,15 +176,15 @@ A short description …
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="screenshot/Screenshot_1.png" width="300"/>
-  <img src="screenshot/Screenshot 2025-10-12 024251.png" width="300"/>
-  <img src="screenshot/Screenshot 2025-10-12 024446.png" width="300"/>
+  <img src="screenshot/Screenshot_1.png" width="380"/>
+  <img src="screenshot/Screenshot 2025-10-12 024251.png" width="380"/>
+  <img src="screenshot/Screenshot 2025-10-12 024446.png" width="380"/>
 </p>
 
 <p align="center">
-  <img src="screenshot/Screenshot 2025-10-12 024502.png" width="300"/>
-  <img src="screenshot/Screenshot 2025-10-12 024518.png" width="300"/>
-  <img src="screenshot/Screenshot_2.png" width="300"/>
+  <img src="screenshot/Screenshot 2025-10-12 024502.png" width="380"/>
+  <img src="screenshot/Screenshot 2025-10-12 024518.png" width="380"/>
+  <img src="screenshot/Screenshot_2.png" width="380"/>
 </p>
 
 
@@ -196,7 +196,7 @@ A short description …
 
 
 
-
+```
 👥 Team Members
 
 Name	Role
@@ -210,7 +210,7 @@ Anushka Kashiv: Documentation & Presentation
 📨 Contact
 
 📧 Email:alok33778@gmail.com
-🔗 GitHub: https://github.com/alokkumar0987/Thales_Genail_AgriTech.git
+🔗 GitHub:[ https://github.com/alokkumar0987/Thales_Genail_AgriTech.git](https://github.com/alokkumar0987/Thales_Genail_AgriTech/tree/main)
 
-
+```
 
