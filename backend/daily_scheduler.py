@@ -1,31 +1,26 @@
 import asyncio
-import traceback
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-# Import agents
+# Import agents with fallbacks
 try:
     from weather_agent import get_weather_alerts
-except ImportError as e:
-    print(f"❌ Weather agent import failed: {e}")
+except ImportError:
     def get_weather_alerts(location): return None
 
 try:
-    from market_agent import get_market_prices
-except ImportError as e:
-    print(f"❌ Market agent import failed: {e}")
+    from market_agent import get_market_prices  
+except ImportError:
     def get_market_prices(): return None
 
 try:
     from soil_agent import get_soil_advice
-except ImportError as e:
-    print(f"❌ Soil agent import failed: {e}")
+except ImportError:
     def get_soil_advice(location): return None
 
 try:
     from location_agent import get_location_info
-except ImportError as e:
-    print(f"❌ Location agent import failed: {e}")
+except ImportError:
     def get_location_info(location): return None
 
 # Notification functions
@@ -33,95 +28,117 @@ def send_telegram_message(message):
     try:
         from notifications.telegram_notify import send_telegram_message as telegram_send
         return telegram_send(message)
-    except Exception as e:
-        print(f"❌ Telegram error: {e}")
+    except Exception:
         return False
 
 def send_whatsapp_message(message):
     try:
         from notifications.whatsapp_notify import send_whatsapp_twilio as whatsapp_send
         return whatsapp_send(message)
-    except Exception as e:
-        print(f"❌ WhatsApp error: {e}")
+    except Exception:
         return False
 
-# ------------------ USER SETTINGS ------------------
-DEFAULT_LOCATION = "Indore, Madhya Pradesh"  # Changed to Indore
+# Config
+DEFAULT_LOCATION = "Indore, Madhya Pradesh"
 TIMEZONE = "Asia/Kolkata"
-NOTIFICATION_HOUR = 20 # Current hour
-NOTIFICATION_MINUTE = 51
-# Adjust for testing
-# ---------------------------------------------------
+NOTIFICATION_HOUR = 2
+NOTIFICATION_MINUTE = 58
 
-# ================== REALISTIC DUMMY DATA FOR INDORE ==================
-
+# Compact dummy data
 def get_dummy_weather(location):
-    """Provide realistic weather data for Indore farmers"""
-    return f"""🌤️ **मौसम - इंदौर, मध्य प्रदेश**
-• तापमान: 26°C (अधिकतम 30°C, न्यूनतम 18°C)
-• आर्द्रता: 65%
-• हवा: 8-12 km/h (पश्चिमी)
-• बारिश: 0 mm (अगले 3 दिन सूखा)
-
-🌾 **कृषि सलाह:**
-• चना की बुवाई का उत्तम समय
-• गेहूं के लिए खेत तैयारी शुरू करें
-• मिट्टी की नमी बनाए रखें"""
+    return """🌤 मौसम - इंदौर
+• तापमान: 26°C (max 30°C)
+• हवा: 8-12 km/h  
+• बारिश: 0 mm (3 दिन सूखा)
+• चना बुवाई का उत्तम समय"""
 
 def get_dummy_market_prices():
-    """Provide realistic market price data for Indore region"""
-    return f"""💰 **इंदौर मंडी भाव** (प्रति क्विंटल)
-
-🌾 अनाज:
-• गेहूं: ₹2,250 - ₹2,350
-
-• सोयाबीन: ₹3,800 - ₹4,100
-• मक्का: ₹1,900 - ₹2,100
-
-
-💡 **बाजार सलाह:**
-• चना के भाव मजबूत, बिक्री के लिए अच्छा समय
-• गेहूं भाव स्थिर, भंडारण कर सकते हैं"""
+    return """ इंदौर मंडी भाव
+• गेहूं: ₹2,250-2,350/क्विंटल
+• सोयाबीन: ₹3,800-4,100
+• चना भाव मजबूत, बिक्री के लिए अच्छा"""
 
 def get_dummy_soil_advice(location):
-    """Provide realistic soil advice for Indore region"""
-    return f"""🌱 **मिट्टी स्वास्थ्य - इंदौर क्षेत्र**
-• मिट्टी प्रकार: काली मिट्टी (कपासी)
-• pH स्तर: 7.2 - 7.8 (हल्की क्षारीय)
-• नमी: 45% (सिंचाई आवश्यक)
-
-
-💧 **सिंचाई:**
-• हल्की सिंचाई करें, जलभराव से बचें"""
+    return """ मिट्टी - इंदौर
+• प्रकार: काली मिट्टी
+• pH: 7.2-7.8  
+• नमी: 45%
+• हल्की सिंचाई करें"""
 
 def get_dummy_location_advice(location):
-    """Provide location-specific farming advice for Indore"""
-    return f"""📍 **इंदौर क्षेत्र विशेष सलाह**
-
-🌾 **रबी सीजन गतिविधियां:**
-• गेहूं बुवाई: नवंबर के पहले पखवाड़े तक
-• चना बुवाई: अक्टूबर अंत तक पूरी करें
-• सरसों: 15-25 अक्टूबर तक बोयें
-
-🏛️ **सरकारी योजनाएं:**
-• प्रधानमंत्री किसान सम्मान निधि
-• मध्य प्रदेश किसान कल्याण योजना
-• रबी फसल बीमा
-
-"""
+    return """ इंदौर सलाह
+• गेहूं बुवाई: नवंबर पहले पखवाड़े
+• चना बुवाई: अक्टूबर अंत तक
+• प्रधानमंत्री किसान सम्मान निधि"""
 
 async def async_call_with_timeout(func, *args, timeout=20, **kwargs):
     try:
         return await asyncio.wait_for(
-            asyncio.to_thread(func, *args, **kwargs),
-            timeout=timeout
+            asyncio.to_thread(func, *args, **kwargs), timeout=timeout
         )
-    except Exception as e:
-        print(f"⏰ Timeout/Error in {func.__name__}: {e}")
+    except Exception:
         return None
 
+async def collect_data():
+    """Collect all farmer data with fallbacks"""
+    data = {}
+    
+    agents = [
+        ('weather', get_weather_alerts, get_dummy_weather),
+        ('market', get_market_prices, get_dummy_market_prices), 
+        ('soil', get_soil_advice, get_dummy_soil_advice),
+        ('location', get_location_info, get_dummy_location_advice)
+    ]
+    
+    for name, real_func, dummy_func in agents:
+        try:
+            if name == 'market':
+                data[name] = await async_call_with_timeout(real_func) or dummy_func()
+            else:
+                data[name] = await async_call_with_timeout(real_func, DEFAULT_LOCATION) or dummy_func(DEFAULT_LOCATION)
+            print(f" {name} data ready")
+        except Exception:
+            data[name] = dummy_func(DEFAULT_LOCATION) if name != 'market' else dummy_func()
+            print(f" {name} failed, using dummy")
+    
+    return data
+
+def create_whatsapp_message(data):
+    """Compact message for WhatsApp (~500 chars)"""
+    return f"""🌾 किसान सलाह - इंदौर
+
+ {data['weather'].split('•')[0].replace('🌤 मौसम - इंदौर', 'मौसम')}
+• तापमान: 26°C | हवा: 8-12 km/h
+
+ {data['market'].split('•')[1]}
+• {data['market'].split('•')[2]}
+
+ {data['soil'].split('•')[1]}
+• {data['soil'].split('•')[3]}
+
+ इस सप्ताह:
+• गेहूं बुवाई तैयारी
+• चना बुवाई जारी रखें
+
+     हेल्पलाइन: 1800-180-1551
+    {datetime.now(ZoneInfo(TIMEZONE)).strftime('%d/%m/%Y %H:%M')}"""
+
+def create_telegram_message(data):
+    """Detailed message for Telegram"""
+    return f"""🌾 *किसान सलाह - इंदौर*
+
+{data['weather']}
+
+{data['market']}
+
+{data['soil']}
+
+{data['location']}
+
+    {datetime.now(ZoneInfo(TIMEZONE)).strftime('%d/%m/%Y %H:%M')}"""
+
 async def daily_summary_loop():
-    print("🚀 Starting farmer advisory system for Indore...")
+    print(" Starting farmer advisory system...")
     
     while True:
         now = datetime.now(ZoneInfo(TIMEZONE))
@@ -131,122 +148,36 @@ async def daily_summary_loop():
             target += timedelta(days=1)
             
         wait_seconds = (target - now).total_seconds()
-        print(f"⏳ Next notification at {target.strftime('%H:%M')} IST")
-        
+        print(f" Next notification at {target.strftime('%H:%M')} IST")
         await asyncio.sleep(wait_seconds)
 
         try:
-            print("\n" + "="*50)
-            print(f"🕐 Generating daily summary for Indore")
-            print("="*50)
+            print("\n" + "="*40)
+            print(f" Generating daily summary")
+            print("="*40)
             
-            # Collect data
-            weather = market = soil = location = None
+            data = await collect_data()
             
-            try:
-                weather = await async_call_with_timeout(get_weather_alerts, DEFAULT_LOCATION) or get_dummy_weather(DEFAULT_LOCATION)
-                print("✅ Weather data ready")
-            except Exception as e:
-                weather = get_dummy_weather(DEFAULT_LOCATION)
-                print(f"❌ Weather failed: {e}")
-
-            try:
-                market = await async_call_with_timeout(get_market_prices) or get_dummy_market_prices()
-                print("✅ Market data ready")
-            except Exception as e:
-                market = get_dummy_market_prices()
-                print(f"❌ Market failed: {e}")
-
-            try:
-                soil = await async_call_with_timeout(get_soil_advice, DEFAULT_LOCATION) or get_dummy_soil_advice(DEFAULT_LOCATION)
-                print("✅ Soil data ready")
-            except Exception as e:
-                soil = get_dummy_soil_advice(DEFAULT_LOCATION)
-                print(f"❌ Soil failed: {e}")
-
-            try:
-                location = await async_call_with_timeout(get_location_info, DEFAULT_LOCATION) or get_dummy_location_advice(DEFAULT_LOCATION)
-                print("✅ Location data ready")
-            except Exception as e:
-                location = get_dummy_location_advice(DEFAULT_LOCATION)
-                print(f"❌ Location failed: {e}")
+            whatsapp_msg = create_whatsapp_message(data)
+            telegram_msg = create_telegram_message(data)
             
-            # SHORT VERSION for WhatsApp (under 1600 chars)
-            whatsapp_message = f"""
-🌾 किसान सलाह - सीहोर, मध्य प्रदेश
-
-
-🌤 मौसम जानकारी:
-• तापमान: 27°C | आंशिक बादल ☁
-• अगले 2 दिन हल्की बारिश की संभावना 🌧
-• सोयाबीन कटाई में देरी न करें
-
-💰 मंडी भाव (आज के औसत भाव):
-• गेहूं: ₹2,320 / क्विंटल
-• सोयाबीन: ₹4,050 / क्विंटल
-• मसूर: ₹5,400 / क्विंटल
-
-🌱 मिट्टी और कृषि सलाह:
-• मिट्टी: दोमट
-• इस सप्ताह जैविक खाद डालें 🌿
-• जल निकासी की व्यवस्था सुनिश्चित करें
-• कटाई के बाद खेत की जुताई करें ताकि नमी बनी रहे
-
-📍 इस सप्ताह के कार्य:
-• सोयाबीन कटाई शुरू करें
-• रबी फसल की तैयारी शुरू करें
-• हल्की सिंचाई गेहूं बुवाई के पहले करें
-
-🧠 AI सलाह:
-“अगले 5 दिन में नमी बनी रहने से गेहूं की बुवाई के लिए सर्वोत्तम समय रहेगा।”
-
-💬 प्रेरणादायक संदेश:
-“मेहनत और ज्ञान से ही खेत सुनहरा होता है 🌾”
-
-📞 कृषि हेल्पलाइन: 1800-180-1551
-
-🕐 {datetime.now(ZoneInfo(TIMEZONE)).strftime('%d/%m/%Y %H:%M')}
-"""
+            print(f" WhatsApp: {len(whatsapp_msg)} chars")
+            print(f" Telegram: {len(telegram_msg)} chars")
             
-            # Telegram gets detailed version
-            telegram_message = f"""
-🌾 **किसान सलाह - इंदौर, मध्य प्रदेश**
-
-{weather}
-
-{market}
-
-{soil}
-
-{location}
-
-🕐 {datetime.now(ZoneInfo(TIMEZONE)).strftime('%d/%m/%Y %H:%M')}
-"""
+            telegram_success = send_telegram_message(telegram_msg)
+            whatsapp_success = send_whatsapp_message(whatsapp_msg)
             
-            print("📝 Messages composed")
-            print(f"📏 WhatsApp: {len(whatsapp_message)} chars")
-            print(f"📏 Telegram: {len(telegram_message)} chars")
-            
-            # Send notifications
-            print("📱 Sending notifications...")
-            
-            telegram_success = send_telegram_message(telegram_message)
-            whatsapp_success = send_whatsapp_message(whatsapp_message)
-            
-            if telegram_success or whatsapp_success:
-                print(f"✅ Summary sent. Telegram: {'✓' if telegram_success else '✗'}, WhatsApp: {'✓' if whatsapp_success else '✗'}")
-            else:
-                print("❌ All methods failed - but message is ready")
+            print(f" Sent. Telegram: {'✓' if telegram_success else '✗'}, WhatsApp: {'✓' if whatsapp_success else '✗'}")
                 
         except Exception as e:
-            print(f"💥 Critical error: {e}")
+            print(f" Error: {e}")
             await asyncio.sleep(300)
 
 def start_scheduler():
     try:
         asyncio.run(daily_summary_loop())
     except KeyboardInterrupt:
-        print("\n🛑 System stopped by user")
+        print("\n System stopped")
 
 if __name__ == "__main__":
     start_scheduler()

@@ -16,14 +16,14 @@ from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-# 🧠 LangChain & Groq (Agent System)
+#  LangChain & Groq (Agent System)
 from langgraph.graph import StateGraph, END
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 
-# 🌦️ Tool imports (your own modules)
+#  Tool imports (your own modules)
 from weather_agent import get_weather_alerts
 from soil_agent import get_personalized_soil_recommendations
 from market_agent import get_market_prices
@@ -32,12 +32,12 @@ from image_agent import analyze_plant_health
 from utils import GROQ_API_KEY, DEFAULT_LOCATION
 from daily_scheduler import daily_summary_loop
 
-# --- 🎤 Whisper Integration for Indian Languages ---
+# ---  Whisper Integration for Indian Languages ---
 import whisper
 
 
 # ================================================================
-# 🎧 1️⃣ Whisper Voice Transcriber
+#  1 Whisper Voice Transcriber
 # ================================================================
 class EnhancedWhisperTranscriber:
     """Offline speech recognition using Whisper model with Indian language focus."""
@@ -48,12 +48,12 @@ class EnhancedWhisperTranscriber:
         self._load_model()
 
     def _load_model(self):
-        print(f"🔄 Loading Whisper model ({self.model_size})...")
+        print(f" Loading Whisper model ({self.model_size})...")
         try:
             self.model = whisper.load_model(self.model_size)
-            print("✅ Whisper model loaded successfully!")
+            print(" Whisper model loaded successfully!")
         except Exception as e:
-            print(f"❌ Whisper model failed to load: {e}")
+            print(f" Whisper model failed to load: {e}")
             raise RuntimeError("Whisper model initialization failed.")
 
     async def transcribe_audio(self, file_path: str) -> str:
@@ -69,10 +69,10 @@ class EnhancedWhisperTranscriber:
                 best_of=3,
             )
             text = result.get("text", "").strip()
-            print(f"🎤 Transcribed Text: {text}")
+            print(f" Transcribed Text: {text}")
             return text
         except Exception as e:
-            print(f"⚠️ Whisper transcription error: {e}")
+            print(f" Whisper transcription error: {e}")
             raise HTTPException(status_code=500, detail="Audio transcription failed.")
 
 
@@ -81,7 +81,7 @@ whisper_transcriber = EnhancedWhisperTranscriber("large")
 
 
 # ================================================================
-# 🌾 2️⃣ Agricultural Language Helpers
+#  2️ Agricultural Language Helpers
 # ================================================================
 def enhance_agricultural_understanding(text: str) -> str:
     """Map regional terms (Hindi/Bhojpuri/Marathi/etc.) → English keywords."""
@@ -108,7 +108,7 @@ def detect_query_language(text: str) -> str:
 
 
 # ================================================================
-# 💬 3️⃣ Session Manager
+#  3️ Session Manager
 # ================================================================
 class SessionManager:
     def __init__(self):
@@ -132,22 +132,22 @@ class SessionManager:
         for sid in list(self.sessions.keys()):
             if now - self.sessions[sid]["created_at"] > max_age:
                 del self.sessions[sid]
-        print("🧹 Old sessions cleaned up.")
+        print(" Old sessions cleaned up.")
 
 
 session_manager = SessionManager()
 
 
 # ================================================================
-# 🚀 4️⃣ FastAPI App Setup
+#  4️ FastAPI App Setup
 # ================================================================
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("🚀 AgriSmart backend starting...")
+    print(" AgriSmart backend starting...")
     cleanup_task = asyncio.create_task(periodic_cleanup())
     yield
     cleanup_task.cancel()
-    print("🛑 AgriSmart shutting down.")
+    print(" AgriSmart shutting down.")
 
 
 async def periodic_cleanup():
@@ -179,7 +179,7 @@ app.add_middleware(
 
 
 # ================================================================
-# 🧠 5️⃣ LLM Agent Setup (Groq + LangGraph)
+# 5️ LLM Agent Setup (Groq + LangGraph)
 # ================================================================
 tools = [
     get_weather_alerts,
@@ -209,7 +209,7 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False)
 
 
 # ================================================================
-# 🔗 6️⃣ LangGraph Workflow
+# LangGraph Workflow
 # ================================================================
 class AgentState(TypedDict):
     input: str
@@ -225,7 +225,7 @@ async def call_agent_node(state: AgentState) -> Dict[str, Any]:
         "chat_history": state["chat_history"],
         "user_location": state["user_location"],
     })
-    reply = result.get("output", "⚠️ Could not process query.")
+    reply = result.get("output", " Could not process query.")
     new_history = state["chat_history"] + [HumanMessage(content=state["input"]), AIMessage(content=reply)]
     return {"chat_history": new_history, "input": reply}
 
@@ -255,7 +255,7 @@ app_workflow = workflow.compile()
 
 
 # ================================================================
-# 🌐 7️⃣ FastAPI Endpoints
+#  7️ FastAPI Endpoints
 # ================================================================
 class QueryRequest(BaseModel):
     text: Optional[str]
@@ -350,7 +350,7 @@ async def get_supported_audio_formats():
 
 
 # ================================================================
-# 💹 8️⃣ Market Data (Real-Time Simulation)
+#  8️Market Data (Real-Time Simulation)
 # ================================================================
 @app.get("/api/market-data/structured")
 async def get_structured_market_data(crop: str, location: str = None):
@@ -399,7 +399,7 @@ def generate_recommendations(crop: str, trend: str) -> str:
 
 
 # ================================================================
-# ▶️ Run the App
+#  Run the App
 # ================================================================
 if __name__ == "__main__":
 
