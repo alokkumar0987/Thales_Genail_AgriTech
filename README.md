@@ -7,7 +7,7 @@
 
 ---
 
-## 📖 Project Overview
+##  Project Overview
 
 AgroSecureAI Agents is an AI-powered, secure, and multilingual agricultural assistant designed to empower farmers with real-time, context-aware, and privacy-preserving solutions.
 
@@ -15,7 +15,7 @@ Using Vision + Language + Agent-based Intelligence with *LangChain* & *LangGraph
 
 ---
 
-## 🎯 Key Idea
+##  Key Idea
 
 To build an AI Agent ecosystem that acts like a smart "Digital Krishi Sahayak" — a single intelligent platform that can:
 
@@ -25,13 +25,13 @@ To build an AI Agent ecosystem that acts like a smart "Digital Krishi Sahayak" �
 
 ---
 
-## ✨ Core Features
+##  Core Features
 
-### 1. 🪴 Real-time Crop Disease Detection
+### 1.  Real-time Crop Disease Detection
 - Powered by *LLaMA 4 Vision model*, capable of identifying pests and diseases directly from leaf images  
 - Rejects irrelevant images with helpful guidance
 
-### 2. 💊 Treatment Recommendation System
+### 2.  Treatment Recommendation System
 - Suggests both *organic* and *chemical treatments* using LangChain reasoning  
 - Dynamic treatment generation without database dependency
 
@@ -83,8 +83,8 @@ To build an AI Agent ecosystem that acts like a smart "Digital Krishi Sahayak" �
 - Market Price:Real time web search  
 
 
----
 
+```
 ## 📁 Project Structure
 
 
@@ -160,7 +160,7 @@ npm install
 # Start the development server
 npm run dev
 
-
+```
 
 # Project Title
 
@@ -171,7 +171,7 @@ A short description …
 [![Watch the demo](https://img.youtube.com/vi/1U8Eqyvgx7Y/0.jpg)](https://youtu.be/1U8Eqyvgx7Y)
 > Click the image above to watch the demo video.
 
----
+
 
 ## 📸 Screenshots
 
