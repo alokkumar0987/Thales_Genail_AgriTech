@@ -162,10 +162,35 @@ npm run dev
 
 
 
-🎥 Demo
+# Project Title
 
-🔗 YouTube Demo Video (Insert link after upload)
-📸 Screenshots folder included in repo
+A short description …
+
+## Demo Video
+
+[![Watch the demo](https://img.youtube.com/vi/1U8Eqyvgx7Y/0.jpg)](https://youtu.be/1U8Eqyvgx7Y)
+> Click the image above to watch the demo video.
+
+---
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="screenshot/Screenshot_1.png" width="160"/>
+  <img src="screenshot/Screenshot_2.png" width="160"/>
+  <img src="screenshot/Screenshot_2025.jpg" width="160"/>
+</p>
+
+<p align="center">
+  <img src="screenshot/Screenshot 2025-10-12 024251.png" width="160"/>
+  <img src="screenshot/Screenshot 2025-10-12 024446.png" width="160"/>
+</p>
+
+---
+
+## How to Run
+
+… (installation & usage instructions)
 
 
 👥 Team Members
