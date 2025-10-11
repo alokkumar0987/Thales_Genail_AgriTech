@@ -132,7 +132,7 @@ Thales_Genail_AgriTech/
 │   ├── tailwind.config.js
 │   └── vite.config.js
 └── README.md
-
+|__ Screenshots
 
 Setup Instructions
 
@@ -175,15 +175,22 @@ A short description …
 
 ## 📸 Screenshots
 
+### 💻 Laptop View
 <p align="center">
-  <img src="screenshot/Screenshot_1.png" width="160"/>
-  <img src="screenshot/Screenshot_2.png" width="160"/>
-  <img src="screenshot/Screenshot_2025.jpg" width="160"/>
+  <img src="screenshot/Screenshot_1.png" width="180"/>
+  <img src="screenshot/Screenshot 2025-10-12 024251.png" width="180"/>
+  <img src="screenshot/Screenshot 2025-10-12 024446.png" width="180"/>
 </p>
 
 <p align="center">
-  <img src="screenshot/Screenshot 2025-10-12 024251.png" width="160"/>
-  <img src="screenshot/Screenshot 2025-10-12 024446.png" width="160"/>
+  <img src="screenshot/Screenshot 2025-10-12 024502.png" width="180"/>
+  <img src="screenshot/Screenshot 2025-10-12 024518.png" width="180"/>
+  <img src="screenshot/Screenshot_2.png" width="180"/>
+</p>
+
+### 📱 Mobile View
+<p align="center">
+  <img src="screenshot/Screenshot_2025.png" width="180"/>
 </p>
 
 ---
