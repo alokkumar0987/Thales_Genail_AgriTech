@@ -176,15 +176,15 @@ A short description …
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="screenshot/Screenshot_1.png" width="380"/>
-  <img src="screenshot/Screenshot 2025-10-12 024251.png" width="380"/>
-  <img src="screenshot/Screenshot 2025-10-12 024446.png" width="380"/>
+  <img src="screenshot/Screenshot_1.png" width="300"/>
+  <img src="screenshot/Screenshot 2025-10-12 024251.png" width="300"/>
+  <img src="screenshot/Screenshot 2025-10-12 024446.png" width="300"/>
 </p>
 
 <p align="center">
-  <img src="screenshot/Screenshot 2025-10-12 024502.png" width="380"/>
-  <img src="screenshot/Screenshot 2025-10-12 024518.png" width="380"/>
-  <img src="screenshot/Screenshot_2.png" width="380"/>
+  <img src="screenshot/Screenshot 2025-10-12 024502.png" width="300"/>
+  <img src="screenshot/Screenshot 2025-10-12 024518.png" width="300"/>
+  <img src="screenshot/Screenshot_2.png" width="300"/>
 </p>
 
 
@@ -206,11 +206,16 @@ Abhinav Upadhyay:Backend developer
 Ajay Sahani: Frontend Developer
 Anushka Kashiv: Documentation & Presentation
 
-
-📨 Contact
-
-📧 Email:alok33778@gmail.com
-🔗 GitHub:[ https://github.com/alokkumar0987/Thales_Genail_AgriTech.git](https://github.com/alokkumar0987/Thales_Genail_AgriTech/tree/main)
-
 ```
+## 📨 Contact
+
+If you have any questions, feedback, or collaboration ideas, feel free to reach out:
+
+- 📧 *Email:* [alok33778@gmail.com](mailto:alok33778@gmail.com)
+ 
+- 🔗 *GitHub:* [Thales_Genail_AgriTech Repository](https://github.com/alokkumar0987/Thales_Genail_AgriTech)  
+
+
+
+
 
