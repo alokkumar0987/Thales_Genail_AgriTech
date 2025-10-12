@@ -1,8 +1,8 @@
 # 🌾 AgroSecureAI Agents
 
-*AI-Powered Secure Agriculture Assistant*
+*Smart Crop Advisory System for Small and Marginal Farmers*
 
-*Team:* AgroTech | Acropolis Institute of Technology and Research, Indore  
+*Team:* Tean Ace | Acropolis Institute of Technology and Research, Indore  
 *Hackathon:* Thales GenAI Hackathon 2025
 
 ---
@@ -145,7 +145,12 @@ cd Thales_GenAI_AgriTech
 
 # Backend Setup
 cd backend
+python -m venv myenv
+
+myenv\Scripts\activate
+
 pip install -r requirements.txt
+
 # Set up environment variables in .env
 # Start the FastAPI server
 uvicorn main:app --reload
